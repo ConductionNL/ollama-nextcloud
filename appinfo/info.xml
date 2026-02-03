@@ -1,0 +1,108 @@
+<?xml version="1.0"?>
+<info>
+    <id>ollama</id>
+    <name>Ollama Local AI</name>
+    <summary>Run large language models locally with Ollama</summary>
+    <description><![CDATA[
+Ollama allows you to run large language models (LLMs) locally on your Nextcloud server.
+
+**Features:**
+- Run open-source LLMs like Llama 3, Mistral, CodeLlama, and more
+- Complete privacy - all processing stays on your server
+- GPU acceleration support (NVIDIA, AMD)
+- OpenAI-compatible API for easy integration
+- Model library with one-command downloads
+- Efficient memory management for running large models
+
+**Supported Models:**
+- Llama 3.2 (Meta's latest model)
+- Mistral 7B (Great for general tasks)
+- CodeLlama (Optimized for coding)
+- Phi-3 (Microsoft's efficient model)
+- Gemma 2 (Google's open model)
+- And many more from the Ollama library
+
+**Use with:**
+- Open WebUI ExApp for a chat interface
+- Nextcloud Assistant for AI-powered features
+- OpenRegister for RAG and agent capabilities
+
+This ExApp runs Ollama as a sidecar container managed by Nextcloud's AppAPI.
+    ]]></description>
+    <version>1.0.0</version>
+    <licence>agpl</licence>
+    <author mail="info@conduction.nl" homepage="https://conduction.nl">Conduction</author>
+    <namespace>ExApp_ollama</namespace>
+    <category>tools</category>
+    <category>integration</category>
+    <website>https://ollama.ai</website>
+    <bugs>https://github.com/ConductionNL/ollama-nextcloud/issues</bugs>
+    <repository type="git">https://github.com/ConductionNL/ollama-nextcloud</repository>
+    <screenshot>https://raw.githubusercontent.com/ConductionNL/ollama-nextcloud/main/screenshot.png</screenshot>
+    <dependencies>
+        <nextcloud min-version="30" max-version="33"/>
+    </dependencies>
+
+    <external-app>
+        <docker-install>
+            <registry>ghcr.io</registry>
+            <image>conductionnl/ollama-nextcloud</image>
+            <image-tag>1.0.0</image-tag>
+        </docker-install>
+
+        <routes>
+            <!-- API endpoints -->
+            <route>
+                <url>^api\/.*</url>
+                <verb>GET,POST,PUT,DELETE</verb>
+                <access_level>USER</access_level>
+            </route>
+            <!-- OpenAI-compatible endpoints -->
+            <route>
+                <url>^v1\/.*</url>
+                <verb>GET,POST</verb>
+                <access_level>USER</access_level>
+            </route>
+            <!-- Model management (admin only) -->
+            <route>
+                <url>^api\/pull$</url>
+                <verb>POST</verb>
+                <access_level>ADMIN</access_level>
+            </route>
+            <route>
+                <url>^api\/delete$</url>
+                <verb>DELETE</verb>
+                <access_level>ADMIN</access_level>
+            </route>
+            <!-- All other routes -->
+            <route>
+                <url>.*</url>
+                <verb>GET,POST</verb>
+                <access_level>USER</access_level>
+            </route>
+        </routes>
+
+        <environment-variables>
+            <variable>
+                <name>OLLAMA_DEFAULT_MODEL</name>
+                <display-name>Default Model</display-name>
+                <description>Model to pull on first startup (default: llama3.2:3b)</description>
+            </variable>
+            <variable>
+                <name>OLLAMA_NUM_PARALLEL</name>
+                <display-name>Parallel Requests</display-name>
+                <description>Number of parallel inference requests (default: 2)</description>
+            </variable>
+            <variable>
+                <name>OLLAMA_KEEP_ALIVE</name>
+                <display-name>Keep Alive Duration</display-name>
+                <description>How long to keep models loaded (default: 15m)</description>
+            </variable>
+            <variable>
+                <name>OLLAMA_MAX_LOADED_MODELS</name>
+                <display-name>Max Loaded Models</display-name>
+                <description>Maximum models to keep in memory (default: 1)</description>
+            </variable>
+        </environment-variables>
+    </external-app>
+</info>
