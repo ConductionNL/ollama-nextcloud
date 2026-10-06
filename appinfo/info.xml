@@ -40,7 +40,7 @@ This ExApp runs Ollama as a sidecar container managed by Nextcloud's AppAPI.
     <repository type="git">https://github.com/ConductionNL/ollama-nextcloud</repository>
     <screenshot>https://raw.githubusercontent.com/ConductionNL/ollama-nextcloud/main/screenshot.png</screenshot>
     <dependencies>
-        <nextcloud min-version="30" max-version="33"/>
+        <nextcloud min-version="30" max-version="35"/>
     </dependencies>
 
     <external-app>
